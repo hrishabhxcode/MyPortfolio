@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematical Formulas</title>
+    <style>
+        :root {
+            --bg-color: #0a0a1f;
+            --text-color: #ffffff;
+            --accent-color: #00ff9d;
+            --secondary-color: #ff00ff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --gradient: linear-gradient(45deg, #00ff9d, #ff00ff);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .formulas-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .formulas-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .formulas-container {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .formulas-wrapper {
+            position: relative;
+            animation: scrollFormulas 120s linear infinite;
+            padding-bottom: 50px;
+        }
+
+        .formulas-wrapper:hover {
+            animation-play-state: paused;
+        }
+
+        .formula-category {
+            margin-bottom: 40px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(0);
+            opacity: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .formula-category h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 0 20px;
+        }
+
+        .formula-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .formula-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.2);
+        }
+
+        .formula-content {
+            text-align: center;
+        }
+
+        .formula {
+            display: block;
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-family: 'Times New Roman', serif;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .formula:hover {
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        .formula-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+        .formula-category-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes scrollFormulas {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-50%);
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: relative;
+            background: var(--bg-color);
+            margin: 5% auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 20px;
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-formula {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        .modal-description {
+            color: var(--text-color);
+            font-size: 1.2rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--accent-color);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .close-modal:hover {
+            transform: rotate(90deg);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .formula-grid {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+            
+            .formula {
+                font-size: 1.5rem;
+            }
+
+            .formula-category-title {
+                font-size: 2rem;
+            }
+
+            .formula-category h3 {
+                font-size: 1.3rem;
+            }
+
+            .formula-description {
+                font-size: 0.9rem;
+            }
+
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+            
+            .modal-formula {
+                font-size: 2rem;
+            }
+        }
+
+        /* Add Formulas Animation Styles */
+        .formulas-animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .flying-formula {
+            position: absolute;
+            font-family: 'Times New Roman', serif;
+            color: var(--accent-color);
+            opacity: 0.2;
+            pointer-events: none;
+            animation: flyFormula 15s linear infinite;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+
+        @keyframes flyFormula {
+            0% {
+                transform: translate(0, 100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translate(var(--end-x), -100px) rotate(var(--end-rotation));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Add Formulas Animation Container -->
+    <div class="formulas-animation-container" id="formulas-animation"></div>
+
+    <!-- Add Modal -->
+    <div class="modal" id="formulaModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-formula" id="modalFormula"></div>
+            <div class="modal-description" id="modalDescription"></div>
+        </div>
+    </div>
+
+    <div class="formulas-container">
+        <h1 class="formula-category-title">Mathematical Formulas</h1>
+        <div class="formulas-wrapper">
+            <!-- Original Categories -->
+            <div class="formula-category">
+                <h3>Integration</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">∫f(x)dx</span>
+                            <p class="formula-description">Definite integral of a function f(x)</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">F(x) = ∫f(t)dt</span>
+                            <p class="formula-description">Antiderivative of a function f(t)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>Statistics</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">∑(x-μ)²</span>
+                            <p class="formula-description">Sum of squared deviations from mean</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">σ = √(∑(x-μ)²/N)</span>
+                            <p class="formula-description">Standard deviation formula</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">R² = 1 - ∑(y-ŷ)²/∑(y-ȳ)²</span>
+                            <p class="formula-description">R-squared coefficient of determination</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New ML Categories -->
+            <div class="formula-category">
+                <h3>Machine Learning</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">J(θ) = 1/2m ∑(hθ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²</span>
+                            <p class="formula-description">Cost function for linear regression</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">θ = θ - α∇J(θ)</span>
+                            <p class="formula-description">Gradient descent update rule</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">σ(z) = 1/(1 + e⁻ᶻ)</span>
+                            <p class="formula-description">Sigmoid activation function</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">L = -∑y⁽ⁱ⁾log(hθ(x⁽ⁱ⁾))</span>
+                            <p class="formula-description">Cross-entropy loss function</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">K(x,x') = exp(-||x-x'||²/2σ²)</span>
+                            <p class="formula-description">RBF kernel function</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">H = -∑p(x)log(p(x))</span>
+                            <p class="formula-description">Information entropy</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">KNN: d(x,y) = √∑(xᵢ-yᵢ)²</span>
+                            <p class="formula-description">Euclidean distance for KNN</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">SVM: max(0, 1-yᵢ(wᵀxᵢ+b))</span>
+                            <p class="formula-description">Hinge loss function</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">PCA: λv = Σv</span>
+                            <p class="formula-description">Eigenvalue equation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>Neural Networks</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">z = Wx + b</span>
+                            <p class="formula-description">Linear transformation in neural networks</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">ReLU(x) = max(0, x)</span>
+                            <p class="formula-description">Rectified Linear Unit activation</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">∂L/∂W = ∂L/∂z · ∂z/∂W</span>
+                            <p class="formula-description">Chain rule for backpropagation</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">Dropout(p) = p * x</span>
+                            <p class="formula-description">Dropout regularization</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">L = -∑y⁽ⁱ⁾log(ŷ⁽ⁱ⁾)</span>
+                            <p class="formula-description">Binary cross-entropy loss</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">MSE = 1/n ∑(y⁽ⁱ⁾ - ŷ⁽ⁱ⁾)²</span>
+                            <p class="formula-description">Mean squared error</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">tanh(x) = (eˣ - e⁻ˣ)/(eˣ + e⁻ˣ)</span>
+                            <p class="formula-description">Hyperbolic tangent activation</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">LeakyReLU(x) = max(0.01x, x)</span>
+                            <p class="formula-description">Leaky ReLU activation</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">ELU(x) = x if x>0 else α(eˣ-1)</span>
+                            <p class="formula-description">Exponential Linear Unit</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>Deep Learning</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">Attention(Q,K,V) = softmax(QKᵀ/√dₖ)V</span>
+                            <p class="formula-description">Attention mechanism</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">BN(x) = γ(x-μ)/σ + β</span>
+                            <p class="formula-description">Batch normalization</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">LSTM: fₜ = σ(Wf[hₜ₋₁,xₜ] + bf)</span>
+                            <p class="formula-description">LSTM forget gate</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">GAN: min_G max_D V(D,G)</span>
+                            <p class="formula-description">GAN objective function</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">Transformer: MultiHead(Q,K,V) = Concat(head₁,...,headₕ)Wᵒ</span>
+                            <p class="formula-description">Multi-head attention</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">VAE: L = -KL(q(z|x)||p(z)) + E[log p(x|z)]</span>
+                            <p class="formula-description">VAE loss function</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">GRU: rₜ = σ(Wᵣ[hₜ₋₁,xₜ])</span>
+                            <p class="formula-description">GRU reset gate</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">DCN: xₖ₊₁ = xₖ - α∇f(xₖ)</span>
+                            <p class="formula-description">Deep Convex Network</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">WGAN: L = E[f(x)] - E[f(g(z))]</span>
+                            <p class="formula-description">Wasserstein GAN loss</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>Optimization</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">Adam: mₜ = β₁mₜ₋₁ + (1-β₁)gₜ</span>
+                            <p class="formula-description">Adam momentum update</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">RMSprop: vₜ = βvₜ₋₁ + (1-β)gₜ²</span>
+                            <p class="formula-description">RMSprop update rule</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">L₁ = λ∑|wᵢ|</span>
+                            <p class="formula-description">L1 regularization</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">L₂ = λ∑wᵢ²</span>
+                            <p class="formula-description">L2 regularization</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">Learning rate decay: α = α₀/(1 + kt)</span>
+                            <p class="formula-description">Learning rate scheduling</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">Gradient clipping: gₜ = gₜ/max(1, ||gₜ||/c)</span>
+                            <p class="formula-description">Gradient clipping</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">Momentum: vₜ = βvₜ₋₁ - α∇J(θ)</span>
+                            <p class="formula-description">Momentum update</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">Nesterov: θₜ = θₜ₋₁ - α∇J(θₜ₋₁ - βvₜ₋₁)</span>
+                            <p class="formula-description">Nesterov momentum</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">AdaGrad: θₜ₊₁ = θₜ - α/√(Gₜ + ε)∇J(θₜ)</span>
+                            <p class="formula-description">Adaptive gradient</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>Reinforcement Learning</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">Q(s,a) = r + γmax(Q(s',a'))</span>
+                            <p class="formula-description">Q-learning update</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">V(s) = maxₐ∑P(s'|s,a)[R(s,a,s') + γV(s')]</span>
+                            <p class="formula-description">Value iteration</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">π(a|s) = exp(Q(s,a)/τ)/∑exp(Q(s,a')/τ)</span>
+                            <p class="formula-description">Softmax policy</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">A(s,a) = Q(s,a) - V(s)</span>
+                            <p class="formula-description">Advantage function</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>Natural Language Processing</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">TF-IDF = tf(t,d) × log(N/df(t))</span>
+                            <p class="formula-description">TF-IDF scoring</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">P(wₙ|wₙ₋₁) = count(wₙ₋₁wₙ)/count(wₙ₋₁)</span>
+                            <p class="formula-description">Bigram probability</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">BLEU = BP × exp(∑wₙlog(pₙ))</span>
+                            <p class="formula-description">BLEU score</p>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <span class="formula">ROUGE-N = |{n-grams} ∩ {n-grams'}|/|{n-grams}|</span>
+                            <p class="formula-description">ROUGE-N score</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add new categories -->
+            <div class="formula-category">
+                <h3>Advanced ML</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">K(x,x') = exp(-γ||x-x'||²)</div>
+                            <div class="formula-description">RBF Kernel Function</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">H(X) = -∑P(x)logP(x)</div>
+                            <div class="formula-description">Information Entropy</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">L = -∑y⁽ⁱ⁾log(hθ(x⁽ⁱ⁾))</div>
+                            <div class="formula-description">Binary Cross-Entropy Loss</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">MSE = 1/n∑(y⁽ⁱ⁾-ŷ⁽ⁱ⁾)²</div>
+                            <div class="formula-description">Mean Squared Error</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>Transformer Architecture</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">Attention(Q,K,V) = softmax(QKᵀ/√dₖ)V</div>
+                            <div class="formula-description">Multi-Head Attention</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">FFN(x) = max(0, xW₁ + b₁)W₂ + b₂</div>
+                            <div class="formula-description">Feed-Forward Network</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">PE(pos,2i) = sin(pos/10000^(2i/d))</div>
+                            <div class="formula-description">Positional Encoding</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">LayerNorm(x) = γ(x-μ)/σ + β</div>
+                            <div class="formula-description">Layer Normalization</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>GAN Architecture</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">min_G max_D V(D,G)</div>
+                            <div class="formula-description">GAN Objective Function</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">L = -E[logD(x)] - E[log(1-D(G(z)))]</div>
+                            <div class="formula-description">Discriminator Loss</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">W(Pr,Pg) = inf_γ∈Π(Pr,Pg)E(x,y)~γ[||x-y||]</div>
+                            <div class="formula-description">Wasserstein Distance</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">L = E[D(G(z))] - E[D(x)]</div>
+                            <div class="formula-description">WGAN Generator Loss</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>Optimization Techniques</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">vₜ = βvₜ₋₁ + (1-β)gₜ</div>
+                            <div class="formula-description">Momentum Update</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">vₜ = βvₜ₋₁ + (1-β)gₜ²</div>
+                            <div class="formula-description">RMSprop Update</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">L = L₀ + λ∑|w|</div>
+                            <div class="formula-description">L1 Regularization</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">L = L₀ + λ∑w²</div>
+                            <div class="formula-description">L2 Regularization</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>Reinforcement Learning</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">Q(s,a) = Q(s,a) + α[R + γmaxQ(s',a') - Q(s,a)]</div>
+                            <div class="formula-description">Q-Learning Update</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">V(s) = max_a∑P(s'|s,a)[R + γV(s')]</div>
+                            <div class="formula-description">Value Iteration</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">π(a|s) = exp(Q(s,a)/τ)/∑exp(Q(s,a')/τ)</div>
+                            <div class="formula-description">Softmax Policy</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">A(s,a) = Q(s,a) - V(s)</div>
+                            <div class="formula-description">Advantage Function</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-category">
+                <h3>Natural Language Processing</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">TF-IDF = tf(t,d) × log(N/df(t))</div>
+                            <div class="formula-description">TF-IDF Score</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">P(wₙ|wₙ₋₁) = count(wₙ₋₁wₙ)/count(wₙ₋₁)</div>
+                            <div class="formula-description">Bigram Probability</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">BLEU = BP × exp(∑wₙlogpₙ)</div>
+                            <div class="formula-description">BLEU Score</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-content">
+                            <div class="formula">ROUGE-N = |{n-grams} ∩ {n-grams'}|/|{n-grams}|</div>
+                            <div class="formula-description">ROUGE-N Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add auto-scroll functionality
+        const formulasWrapper = document.querySelector('.formulas-wrapper');
+        const categories = document.querySelectorAll('.formula-category');
+        
+        // Clone categories for seamless scrolling
+        categories.forEach(category => {
+            const clone = category.cloneNode(true);
+            formulasWrapper.appendChild(clone);
+        });
+
+        // Reset animation when it reaches the end
+        formulasWrapper.addEventListener('animationend', () => {
+            formulasWrapper.style.animation = 'none';
+            formulasWrapper.offsetHeight; // Trigger reflow
+            formulasWrapper.style.animation = null;
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('formulaModal');
+        const modalFormula = document.getElementById('modalFormula');
+        const modalDescription = document.getElementById('modalDescription');
+        const closeModal = document.querySelector('.close-modal');
+
+        // Add click event to all formula cards
+        document.querySelectorAll('.formula-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const formula = card.querySelector('.formula').textContent;
+                const description = card.querySelector('.formula-description').textContent;
+                
+                modalFormula.textContent = formula;
+                modalDescription.textContent = description;
+                modal.style.display = 'block';
+            });
+        });
+
+        // Close modal when clicking the close button
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Add Formulas Animation
+        function createFlyingFormula() {
+            const container = document.getElementById('formulas-animation');
+            const formula = document.createElement('div');
+            formula.className = 'flying-formula';
+            
+            // Expanded formula selection
+            const formulas = [
+                '∫f(x)dx', '∑(x-μ)²', 'P(A|B)', 'σ = √(∑(x-μ)²/N)',
+                'lim(x→∞)', '∂f/∂x', 'E[X] = ∑xP(x)', 'H(X) = -∑P(x)logP(x)',
+                'F(x) = ∫f(t)dt', 'R² = 1 - ∑(y-ŷ)²/∑(y-ȳ)²',
+                'J(θ) = 1/2m ∑(hθ(x⁽ⁱ⁾) - y⁽ⁱ⁾)²', 'θ = θ - α∇J(θ)',
+                'σ(z) = 1/(1 + e⁻ᶻ)', 'L = -∑y⁽ⁱ⁾log(hθ(x⁽ⁱ⁾))',
+                'z = Wx + b', 'ReLU(x) = max(0, x)', '∂L/∂W = ∂L/∂z · ∂z/∂W',
+                'Attention(Q,K,V) = softmax(QKᵀ/√dₖ)V', 'BN(x) = γ(x-μ)/σ + β'
+            ];
+            
+            formula.textContent = formulas[Math.floor(Math.random() * formulas.length)];
+            
+            // Random starting position with better distribution
+            formula.style.left = Math.random() * 100 + '%';
+            
+            // Smaller size range for more density
+            const size = Math.random() * 15 + 8;
+            formula.style.fontSize = size + 'px';
+            
+            // More varied end positions
+            formula.style.setProperty('--end-x', (Math.random() * 300 - 150) + '%');
+            formula.style.setProperty('--end-rotation', (Math.random() * 720 - 360) + 'deg');
+            
+            // Faster animation duration
+            const duration = Math.random() * 8 + 6;
+            formula.style.animationDuration = duration + 's';
+            
+            // Shorter delay for more frequent spawning
+            formula.style.animationDelay = Math.random() * 2 + 's';
+            
+            container.appendChild(formula);
+            
+            // Remove formula after animation
+            formula.addEventListener('animationend', () => {
+                formula.remove();
+            });
+        }
+
+        // Create formulas more frequently
+        setInterval(createFlyingFormula, 800);
+
+        // Create more initial formulas
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createFlyingFormula, i * 200);
+        }
+    </script>
+</body>
+</html>
