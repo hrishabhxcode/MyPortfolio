@@ -1530,6 +1530,122 @@
             width: 16px;
             height: 16px;
         }
+
+        /* Add these responsive styles to your existing CSS */
+
+        /* General responsive rules */
+        @media screen and (max-width: 768px) {
+            /* Splash screen adjustments */
+            .name-text {
+                font-size: 2.5rem;
+            }
+
+            .name-subtitle {
+                font-size: 1rem;
+                letter-spacing: 0.3em;
+            }
+
+            .loading-bar {
+                width: 250px;
+            }
+
+            /* Navigation adjustments */
+            .nav-menu {
+                position: fixed;
+                bottom: 20px;
+                top: auto;
+                right: 50%;
+                transform: translateX(50%);
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.8);
+                padding: 10px;
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+            }
+
+            .nav-link {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            /* Section adjustments */
+            .section {
+                padding: 60px 20px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+
+            /* Projects container adjustments */
+            .projects-iframe-container {
+                width: 95%;
+                height: 600px;
+                margin: 0 auto;
+            }
+        }
+
+        /* Small phone adjustments */
+        @media screen and (max-width: 480px) {
+            .name-text {
+                font-size: 2rem;
+            }
+
+            .name-subtitle {
+                font-size: 0.8rem;
+                letter-spacing: 0.2em;
+            }
+
+            .loading-bar {
+                width: 200px;
+            }
+
+            .nav-menu {
+                padding: 8px;
+                gap: 8px;
+            }
+
+            .nav-link {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .projects-iframe-container {
+                width: 100%;
+                height: 500px;
+                border-radius: 15px;
+            }
+        }
+
+        /* Ensure proper scaling for all devices */
+        @media screen and (orientation: landscape) and (max-height: 500px) {
+            .splash-container {
+                padding: 20px;
+            }
+
+            .name-text {
+                font-size: 2rem;
+            }
+
+            .loading-bar {
+                margin: 10px auto;
+            }
+        }
+
+        /* Fix for notched phones */
+        @supports (padding: max(0px)) {
+            .nav-menu {
+                padding-bottom: max(20px, env(safe-area-inset-bottom));
+            }
+        }
     </style>
 </head>
 
